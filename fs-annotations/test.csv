@@ -1,0 +1,16 @@
+user,articleName,sectionIndex,sentenceIndex,filename,sentence,fs_span,fs_text
+,Anatomy,10,39,8753407196020644-674_10_39.mp4,Valves seal the nostrils and ears when it is submerged.,[],[]
+,Arctic char,1,0,9331694100151824-1609327_1_0.mp4,Name,"[(1, 12)]",['M']
+,Asia,9,17,822746339184516-689_9_17.mp4,Tropical rainforests stretch across much of southern Asia and coniferous and deciduous forests lie farther north.,"[(181, 209), (234, 273)]","['coniferous', 'deciduous']"
+,Bicycle,2,31,007391894400553323-3973_2_31.mp4,"Among the earliest clubs was The Bicycle Touring Club, which has operated since 1878.","[(69, 85), (124, 145), (152, 201), (214, 260), (266, 284)]","['club', 'the ', 'Bicycle', 'touring', 'Club']"
+,Biochemistry,6,26,2038428801833303-3954_6_26.mp4,Secondary structure is concerned with local morphology (morphology being the study of structure).,"[(110, 135), (160, 211), (235, 268), (295, 301), (325, 373)]","['Local', 'Morphology', 'Morphology', 'of', 'Structure']"
+,Botany,10,24,9015595343713942-4183_10_24.mp4,"The commercial banana is an example of a sterile, seedless triploid hybrid.","[(189, 232), (248, 291), (299, 326)]","['sterile', 'triploid', 'hybrid']"
+,Brain,3,9,27455640852890517-3717_3_9.mp4,"This category includes tardigrades, arthropods, molluscs, and numerous types of worms.","[(366, 401)]",['worms']
+,Chernobyl disaster,3,7,19904717818871642-2589713_3_7.mp4,At 23 the Kiev grid controller allowed the reactor shutdown to resume.,"[(108, 135)]",['kiev']
+,Ethiopia,15,14,1720692153440595-187749_15_14.mp4,The EPRDF also won the 2005 election returning Meles to power.,"[(1, 48), (192, 226)]","['EPRDF', 'Meles']"
+,History of mathematics,6,25,29134386193868744-14220_6_25.mp4,"Mathematics in Vietnam and Korea were mostly associated with the professional court bureaucracy of mathematicians and astronomers, whereas in Japan it was more prevalent in the realm of private schools.","[(41, 57)]",['Vietnam']
+,History of medicine,17,0,042652690244531-14194_17_0.mp4,Padua and Bologna,"[(14, 49), (65, 109)]","['Padua', 'Bologna']"
+,Mammal,20,12,37446586066003995-18838_20_12.mp4,Allometric analysis indicates that mammalian brain size scales at approximately the ​2⁄3 or ​3⁄4 exponent of the body mass.,"[(1, 71), (182, 204), (585, 598)]","['Allometric', 'mammalian', 'Mass']"
+,Mining,14,2,5152801815435992-20381_14_2.mp4,"The science of extractive metallurgy is a specialized area in the science of metallurgy that studies the extraction of valuable metals from their ores, especially through chemical or mechanical means.","[(107, 150), (159, 208), (397, 411), (482, 486)]","['extractive', 'metallurgy', 'ores', 'or']"
+,Number,22,5,9575079637944461-21690_22_5.mp4,One reason is that there is no algorithm for testing the equality of two computable numbers.,"[(111, 135), (140, 142)]","['Equality', 'of']"
+,Year,0,6,5626139912842181-34341_0_6.mp4,"For the Gregorian calendar, the average length of the calendar year (the mean year) across the complete leap cycle of 400 years is 365.2425 days.","[(29, 68)]",['Gregorian']
