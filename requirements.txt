@@ -1,0 +1,13 @@
+tqdm
+hydra-core
+matplotlib
+numpy
+scipy
+torch
+opencv-python
+pandas
+wandb
+accelerate
+transformers
+mediapipe
+fire
