@@ -447,8 +447,8 @@ if __name__ == "__main__":
     from torchvision import transforms
     import videotransforms
 
-    datadir = '/home/lualex/PaidWikiDataset/videos/'
-    label_file = '/home/lualex/PaidWikiDataset/videos.csv'
+    datadir = '/path/to/folder/videos/'
+    label_file = '/path/to/csvfile/videos.csv'
 
     test_transforms = transforms.Compose([videotransforms.BottomCenterCrop(224)])
     ds = ASLWikiDataset(datadir=datadir, transforms=test_transforms, label_file=label_file, window_stride=10)
