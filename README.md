@@ -1,6 +1,6 @@
 # ASL STEM Wiki
 
-This repository contains the code and data supporting our paper titled "ASL STEM Wiki: Dataset and Benchmark for Interpreting STEM Articles". Below, you will find instructions on how to use the code and access the data.
+This repository contains the code supporting our paper titled "ASL STEM Wiki: Dataset and Benchmark for Interpreting STEM Articles". Specifically, it contains code for replicating our fingerspelling detection and alignment benchmarks. Below, you will find instructions on how to use the code. 
 
 Project page: https://www.microsoft.com/en-us/research/project/asl-stem-wiki
 
@@ -61,6 +61,9 @@ Train:
 python src/train.py
 ```
 Run the fingerspelling alignment heuristic model:
+```
+python src/main.py
+```
 
 ## Citation
 If you found the resources in this repository useful, please cite our [paper](https://aclanthology.org/2024.emnlp-main.801/).
@@ -98,6 +101,18 @@ provided by the bot. You will only need to do this once across all repos using o
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+## Responsible AI Transparency Documentation
+
+Intended uses: This repo is best suited for detecting and aligning instances of American Sign Language (ASL) fingerspelling with accompanying English text translations. This repo is being shared with the research community to facilitate reproduction of our results and foster further research in this area. This repo is intended to be used by domain experts who are independently capable of evaluating the quality of outputs before acting on them. Further details on use cases can be found on the [ASL STEM Wiki project website](https://www.microsoft.com/en-us/research/project/asl-stem-wiki).  
+
+Out-of-scope uses: This repo is not well suited to be used alone for other sign language processing tasks, like end-to-end translation. In particular, we developed the code with ASL and English in mind, and the code may not immediately apply to other signed languages, as each signed language is unique. We do not recommend using this repo in commercial or real-world applications without further testing and development. It is being released for research purposes. This repo was not designed or evaluated for all possible downstream purposes. Developers should consider its inherent limitations (more below) as they select use cases, and evaluate and mitigate for accuracy, safety, and fairness concerns specific to each intended downstream use. We do not recommend using this repo in the context of high-risk decision making (e.g. in law enforcement, legal, finance, or healthcare).  Please see the [ASL STEM Wiki project page](https://www.microsoft.com/en-us/research/project/asl-stem-wiki) for more information on appropriate and inappropriate use cases. 
+
+Evaluation: This repo was evaluated on its ability to perform fingerspelling detection and alignment with associated text, using the ASL STEM Wiki dataset. We used mean IOU (Intersection Over Union) scores on fingerspelling detection and alignment to measure performance, and compared against a random baseline. We found that our method performed with mean IOU for detection between .19 and .28, and with mean IOU for alignment of 0.13, compared to the random baseline of 0.06 for both tasks. A detailed discussion of our evaluation methods and results can be found in our paper.  
+
+Limitations: This repo was developed for research and experimental purposes. Further testing and validation are needed before considering its application in commercial or real-world scenarios. This repo was designed and tested using American Sign Language and English. Performance in other languages may vary and should be assessed by someone who is both an expert in the expected outputs and a native user of both the signed and written languages. In addition, choice of training data will impact performance, with large amounts of high-quality ASL likely to improve performance. This repo should not be used in highly regulated domains where inaccurate outputs could suggest actions that lead to injury or negatively impact an individual's legal, financial, or life opportunities. Please see the [ASL STEM Wiki project page](https://www.microsoft.com/en-us/research/project/asl-stem-wiki) for more information on important limitations. 
+
+Best Practices: Better performance can be achieved by training on larger datasets for general use, training on specialized datasets for domain-limited use, and developing better machine learning techniques. Users are responsible for sourcing their datasets legally and ethically. This could include securing appropriate copy rights, ensuring consent for use of audio/images, and/or the anonymization of data prior to use in research. Users are reminded to be mindful of data privacy concerns and are encouraged to review the privacy policies associated with any models and data storage solutions interfacing with this repo. It is the user’s responsibility to ensure that the use of this repo complies with relevant data protection regulations and organizational guidelines. 
 
 ## Trademarks
 
