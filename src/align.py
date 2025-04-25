@@ -48,7 +48,7 @@ def fs_aligner(sentence, label, wiki_words):
     return align_preds
 
 def run_heuristic_align(cfg):
-    with open('wikipedia_words.json', 'r') as f:
+    with open('src/wikipedia_words.json', 'r') as f:
         wiki_words = json.load(f)
 
     detect_ds = ASLWikiDataset(datadir=cfg.data.ft_datadir, label_file=cfg.data.ft_label_file, min_frames=0)
