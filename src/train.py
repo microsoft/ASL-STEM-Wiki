@@ -557,8 +557,8 @@ def multitask(cfg):
     ft_text_dataloader = accelerator.prepare(ft_text_dataloader)
 
     name = cfg.wandb.name
-    wandb.init(project='aslnn',
-               entity='kayo',
+    wandb.init(project='PROJECT_NAME',
+               entity='ENTITY_NAME',
                name=name)
 
     ## edge case for 0 epochs
