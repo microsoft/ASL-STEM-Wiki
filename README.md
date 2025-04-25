@@ -37,7 +37,7 @@ if __name__ == '__main__':
     cfg.data.seq_length = 600
     cfg.data.ft_datadir = 'ASL_STEM_Wiki_data/videos/'
     cfg.data.ft_label_file = 'fs-annotations/train.csv'
-    cfg.data.eval_article = 'Hal Anger' # Replace 
+    cfg.data.eval_article = 'Hal Anger' # Replace with the held-out article for cross-validation
     cfg.model = namedtuple('Model', ['type', 'num_keypoints', 'hidden_feature', 'p_dropout', 'num_stages'])
     cfg.model.type = 'multitask'
     cfg.model.num_keypoints = 75
@@ -47,12 +47,12 @@ if __name__ == '__main__':
     cfg.train = namedtuple('Train', ['learning_rate', 'num_epochs', 'model_dir'])
     cfg.train.learning_rate = 1e-3
     cfg.train.num_epochs = 0
-    cfg.train.model_dir = 'test'
+    cfg.train.model_dir = 'model'
     cfg.wandb = namedtuple('Wandb', ['name'])
     cfg.wandb.name = 'st-Hal_Anger'
     cfg.finetune = namedtuple('Finetune', ['num_epochs', 'model_dir'])
     cfg.finetune.num_epochs = 40
-    cfg.finetune.model_dir = 'test'
+    cfg.finetune.model_dir = 'model'
 ```
 
 
@@ -62,7 +62,7 @@ python src/train.py
 ```
 Run the fingerspelling alignment heuristic model:
 ```
-python src/main.py
+python src/align.py
 ```
 
 ## Citation

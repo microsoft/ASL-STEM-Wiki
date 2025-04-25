@@ -21,21 +21,15 @@ class MultiTaskModel(nn.Module):
         self.text_model = AutoModel.from_pretrained("google/canine-c") # (bs, seq_len, 768)
         self.text_proj = nn.Linear(768, hidden_feature)
         
-        ###### 768 = embedding dim of pretrained model
-        # add multiple layers and non linearity?
         self.video_clf = nn.Linear(2*hidden_feature, 3)
         self.text_clf = nn.Linear(2*hidden_feature, 2)
         self.video_span = nn.Linear(hidden_feature, 2)
         self.text_span = nn.Linear(hidden_feature, 2)
 
     def forward(self, video_data, text_data, attention_mask, task):
-        # video_data: (batch, input_length, input_feature)
-        # text_data: (batch, seq_len, input_feature)
-        # print("text shape: ", text_data.shape)
         y_video = self.video_cnn(video_data) # (batch, input_length, hidden_feature)
         y_text = self.text_model(text_data, attention_mask=attention_mask).last_hidden_state # (batch, seq_len, 768)
         y_text = self.text_proj(y_text)
-        # print("y text shape: ", y_text.shape)
         if 'clf' in task:
             y = torch.cat((torch.mean(y_video, dim=1), torch.mean(y_text, dim=1)), dim=1) # (batch, hidden_feature*2)
         else:
@@ -66,8 +60,6 @@ class GCN(nn.Module):
             self.gcbs.append(GC_Block(hidden_feature, num_keypoints=input_length, p_dropout=p_dropout, is_resi=is_resi))
 
         self.gcbs = nn.ModuleList(self.gcbs)
-
-        # self.gc7 = GraphConvolution_att(hidden_feature, output_feature, input_length)
 
         self.do = nn.Dropout(p_dropout)
         self.act_f = nn.Tanh()

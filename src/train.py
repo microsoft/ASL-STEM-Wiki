@@ -8,7 +8,6 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
 import wandb
-import random
 from collections import namedtuple
 
 
@@ -60,7 +59,7 @@ def singletask(cfg):
 
     train_size = int(0.9 * len(ds))
     val_size = len(ds) - train_size
-    train_ds, val_ds = torch.utils.data.random_split(ds, [train_size, val_size]) # not randomized - ok?
+    train_ds, val_ds = torch.utils.data.random_split(ds, [train_size, val_size]) 
     train_ds = train_ds.dataset
     val_ds = val_ds.dataset
 
@@ -296,16 +295,6 @@ def singletask(cfg):
             start_logits, end_logits = outputs.split(1, dim=-1)
             start_logits = start_logits.squeeze(-1)  # [batch_size, sequence_length]
             end_logits = end_logits.squeeze(-1)      # [batch_size, sequence_length]
-            
-            # Calculate the loss
-            # print("Output and label shapes:", outputs.shape, label.shape)
-            # token_loss = binary_criterion(outputs, label.to(device))
-            # one_mask = label == 1
-            # zero_mask = label == 0
-            # one_masked_loss = token_loss * one_mask.to(device)
-            # zero_masked_loss = token_loss * zero_mask.to(device)
-
-            # loss = one_masked_loss.mean() + zero_masked_loss.mean()
 
             start_loss = criterion(start_logits, start_positions.to(device))
             end_loss = criterion(end_logits, end_positions.to(device))
@@ -396,16 +385,6 @@ def singletask(cfg):
             start_logits, end_logits = outputs.split(1, dim=-1)
             start_logits = start_logits.squeeze(-1)  # [batch_size, sequence_length]
             end_logits = end_logits.squeeze(-1)      # [batch_size, sequence_length]
-            
-            # Calculate the loss
-            # print("Output and label shapes:", outputs.shape, label.shape)
-            # token_loss = binary_criterion(outputs, label.to(device))
-            # one_mask = label == 1
-            # zero_mask = label == 0
-            # one_masked_loss = token_loss * one_mask.to(device)
-            # zero_masked_loss = token_loss * zero_mask.to(device)
-
-            # loss = one_masked_loss.mean() + zero_masked_loss.mean()
 
             start_loss = criterion(start_logits, start_positions.to(device))
             end_loss = criterion(end_logits, end_positions.to(device))
@@ -539,7 +518,7 @@ def multitask(cfg):
 
     train_size = int(0.9 * len(ds))
     val_size = len(ds) - train_size
-    train_ds, val_ds = torch.utils.data.random_split(ds, [train_size, val_size]) # not randomized - ok?
+    train_ds, val_ds = torch.utils.data.random_split(ds, [train_size, val_size]) 
     train_ds = train_ds.dataset
     val_ds = val_ds.dataset
 
@@ -766,24 +745,9 @@ def multitask(cfg):
             start_logits = start_logits.squeeze(-1)  # [batch_size, sequence_length]
             end_logits = end_logits.squeeze(-1)      # [batch_size, sequence_length]
             
-            # Calculate the loss
-            # print("Output and label shapes:", outputs.shape, label.shape)
-            # token_loss = binary_criterion(outputs, label.to(device))
-            # one_mask = label == 1
-            # zero_mask = label == 0
-            # one_masked_loss = token_loss * one_mask.to(device)
-            # zero_masked_loss = token_loss * zero_mask.to(device)
-
-            # loss = one_masked_loss.mean() + zero_masked_loss.mean()
-            # print("Start and end positions:", start_positions, end_positions)
             start_loss = criterion(start_logits, start_positions.to(device))
             end_loss = criterion(end_logits, end_positions.to(device))
             loss = (start_loss + end_loss) / 2
-
-            # print("losses:", start_loss, end_loss, loss)
-            # print("preds:", torch.argmax(start_logits, dim=1), torch.argmax(end_logits, dim=1))
-            # print("labels:", start_positions, end_positions)
-
 
             # Backpropagation and optimization
             loss.backward()
@@ -871,15 +835,6 @@ def multitask(cfg):
             start_logits = start_logits.squeeze(-1)  # [batch_size, sequence_length]
             end_logits = end_logits.squeeze(-1)      # [batch_size, sequence_length]
             
-            # Calculate the loss
-            # print("Output and label shapes:", outputs.shape, label.shape)
-            # token_loss = binary_criterion(outputs, label.to(device))
-            # one_mask = label == 1
-            # zero_mask = label == 0
-            # one_masked_loss = token_loss * one_mask.to(device)
-            # zero_masked_loss = token_loss * zero_mask.to(device)
-
-            # loss = one_masked_loss.mean() + zero_masked_loss.mean()
 
             start_loss = criterion(start_logits, start_positions.to(device))
             end_loss = criterion(end_logits, end_positions.to(device))
@@ -974,9 +929,6 @@ def multitask(cfg):
         wandb.save(f'{cfg.finetune.model_dir}/outputs/{cfg.data.eval_article}-align_preds.txt')
         wandb.save(f'{cfg.finetune.model_dir}/outputs/{cfg.data.eval_article}-align_labels.txt')
 
-    # mean_detect_loss = sum(detect_loss) / len(detect_loss)
-    # mean_align_loss = sum(align_loss) / len(align_loss)
-    # print(f'Detect Loss: {mean_detect_loss}, Align Loss: {mean_align_loss}')
     wandb.finish()
 
 
@@ -1005,7 +957,7 @@ if __name__ == '__main__':
     cfg.model = namedtuple('Model', ['type', 'num_keypoints', 'hidden_feature', 'p_dropout', 'num_stages'])
     cfg.model.type = 'multitask'
     cfg.model.num_keypoints = 75
-    cfg.model.hidden_feature = 768 # try smaller hidden size
+    cfg.model.hidden_feature = 768 
     cfg.model.p_dropout = 0.3
     cfg.model.num_stages = 6
     cfg.train = namedtuple('Train', ['learning_rate', 'num_epochs', 'model_dir'])

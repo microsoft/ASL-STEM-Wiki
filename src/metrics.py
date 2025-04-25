@@ -3,8 +3,6 @@
 import os
 import pickle
 import numpy as np
-from sklearn.cluster import KMeans
-
 
 def get_iou(y_pred, y_true):
     # y_pred, y_true: [[start, end],...]
@@ -249,29 +247,3 @@ def compute_ap_at_iou(y_pred, y_true, iou_thresholds):
 
     return ap_at_iou
 
-def find_best_clustering(scores, num_clusters):
-    # Convert the scores list to a numpy array
-    scores_array = np.array(scores).reshape(-1, 1)
-
-    # Initialize the KMeans object with the desired number of clusters
-    kmeans = KMeans(n_clusters=num_clusters, random_state=42, n_init=10, max_iter=1000)
-
-    # Fit the KMeans model to the data
-    kmeans.fit(scores_array)
-
-    # Get the cluster assignments for each data point
-    cluster_assignments = kmeans.labels_
-
-    # Initialize a list to store the smallest value in each cluster
-    smallest_in_clusters = []
-
-    # Iterate over each cluster and find the smallest value
-    for cluster_idx in range(num_clusters):
-        cluster_values = scores_array[cluster_assignments == cluster_idx]
-        if len(cluster_values) == 0:
-            smallest_value = np.inf
-        else:
-            smallest_value = np.min(cluster_values)
-        smallest_in_clusters.append(smallest_value)
-
-    return smallest_in_clusters

@@ -1,11 +1,7 @@
-import os
 import csv
-import re
 import random
-import math
 import ast
 from dataclasses import dataclass
-# import cv2
 import numpy as np
 import pandas as pd
 import torch
@@ -14,8 +10,6 @@ import torch
 from torch.utils.data import Dataset
 from collections import defaultdict
 from transformers import AutoTokenizer
-
-DEBUG = False
 
 def video_to_tensor(pic):
     """Convert a ``numpy.ndarray`` to tensor.
@@ -73,13 +67,6 @@ class ASLWikiDataset(data_utl.Dataset):
                                                         "filename",
                                                         "videoLength",
                                                         "sentence"])
-        # filter out videos with less than min_frames
-        # if not DEBUG:
-        #     print(f"Filtering videos with less than {min_frames} frames")
-        #     if min_frames > 0:
-        #         self.video_df['num_frames'] = self.video_df['filename'].apply(lambda x: len(np.load(self.datadir.replace('/videos/', '/keypoints/') + x.replace('/videos/', '/keypoints/').replace('.mp4', '.npy'))))
-        #         self.video_df = self.video_df[self.video_df['num_frames'] >= min_frames]
-        #     print(f"Filtered {len(data) - len(self.video_df)} videos")
 
         self.return_windows = return_windows
         self.window_size = window_size
@@ -95,21 +82,7 @@ class ASLWikiDataset(data_utl.Dataset):
         video_path = self.datadir + curr_video['filename']
         
         keypoints_path = video_path.replace('/videos/', '/keypoints/').replace('.mp4', '.npy')
-        if DEBUG:
-            # num_frames = 30 # np.random.randint(100, 400)
-            ret_keypoints = np.random.rand(max(2000, self.min_frames + 10), 75, 2)
-            # random_file = random.choice(os.listdir('/scratch/users/kayoyin/asl-wiki/google-fs/supplemental_keypoints'))
-            # file_path = os.path.join('/scratch/users/kayoyin/asl-wiki/google-fs/supplemental_keypoints', random_file)
-
-            # ret_keypoints = np.load(file_path)[:,:,:2]
-            # left_hand = ret_keypoints[:, 33:54, :]
-            # right_hand = ret_keypoints[:, 54:75, :]
-            # ret_keypoints[:, 33:54, :] = right_hand
-            # ret_keypoints[:, 54:75, :] = left_hand
-            # ret_keypoints = ret_keypoints[:30] # shorten to 30 frames
-            
-        else:
-            ret_keypoints = np.load(keypoints_path)
+        ret_keypoints = np.load(keypoints_path)
         
         if len(ret_keypoints) < self.min_frames:
             print(f"input {index}, {video_path}, {curr_video['articleName']}, {ret_keypoints.shape}, min_frames {self.min_frames}")
@@ -442,6 +415,35 @@ class ContraVideoDataset(Dataset):
 
         return clip, other_clip, sentence, attention_mask, label
 
+class HeuristicDataset(Dataset):
+    """
+    Dataset for heuristic model.
+    Returns video, sentence, detection labels, alignment labels.
+    """
+    def __init__(self, ds):
+        self.ds = ds
+
+    def __len__(self):
+        return len(self.ds)
+    
+    def __getitem__(self, idx):
+        data = self.ds[idx]
+        frames = torch.Tensor(data.keypoints)
+        
+        sentence = data.sentence.lower()
+
+        detect_label = torch.zeros(len(frames))
+        for span in data.fs_span:
+            detect_label[span[0]:span[1]] = 1
+
+        align_label = torch.zeros(len(sentence))
+        for phrase in data.fs_text:
+            phrase = str(phrase).lower().strip()
+            start_index = sentence.find(phrase) #TODO fix cases where phrase is substring of a word
+            end_index = start_index + len(phrase)
+            align_label[start_index:end_index] = 1
+        
+        return frames, sentence, detect_label.to(torch.long), align_label.to(torch.long)
 
 if __name__ == "__main__":
     from torchvision import transforms
